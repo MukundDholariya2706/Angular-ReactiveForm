@@ -1,86 +1,98 @@
 <div class="register-form">
   <form [formGroup]="registerform" (ngSubmit)="onSubmit()">
-    <div>
-      <label>First Name</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="firstname"
-        placeholder="Enter First Name"
-        [ngClass]="{ 'is-invalid': submitted && f['firstname'].errors }"
-      />
-      <div
-        *ngIf="f['firstname'].touched && !f['firstname'].valid"
-        class="text-danger"
-      >
-        <div *ngIf="f['firstname'].errors?.['required']">Field is required</div>
-      </div>
-    </div>
-    <div>
-      <label>Last Name</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="lastname"
-        placeholder="Enter Last Name"
-      />
-      <div
-        *ngIf="f['lastname'].touched && !f['lastname'].valid"
-        class="text-danger"
-      >
-        <div *ngIf="f['lastname'].errors?.['required']">Field is required</div>
-      </div>
-    </div>
-
-    <div formGroupName="address">
-      <div>
-        <label>Address</label>
+    <div class="row">
+      <div class="col-md-6">
+        <label>First Name</label>
         <input
           type="text"
           class="form-control"
-          formControlName="street"
-          placeholder="Enter street"
+          formControlName="firstname"
+          placeholder="Enter First Name"
+          [ngClass]="{ 'is-invalid': submitted && f['firstname'].errors }"
         />
         <div
-          *ngIf="g['street'].touched && !g['street'].valid"
+          *ngIf="f['firstname'].touched && !f['firstname'].valid"
           class="text-danger"
         >
-          <div *ngIf="g['street'].errors?.['required']">street is required</div>
+          <div *ngIf="f['firstname'].errors?.['required']">
+            Field is required
+          </div>
         </div>
       </div>
-
-      <div>
-        <label>city</label>
+      <div class="col-md-6">
+        <label>Last Name</label>
         <input
           type="text"
           class="form-control"
-          formControlName="city"
-          placeholder="Enter city"
-        />
-        <div *ngIf="g['city'].touched && !g['city'].valid" class="text-danger">
-          <div *ngIf="g['city'].errors?.['required']">city is required</div>
-        </div>
-      </div>
-
-      <div>
-        <label>zipcode</label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="zipcode"
-          placeholder="Enter zipcode"
+          formControlName="lastname"
+          placeholder="Enter Last Name"
         />
         <div
-          *ngIf="g['zipcode'].touched && !g['zipcode'].valid"
+          *ngIf="f['lastname'].touched && !f['lastname'].valid"
           class="text-danger"
         >
-          <div *ngIf="g['zipcode'].errors?.['required']">zip is required</div>
-          <div *ngIf="g['zipcode'].errors?.['minlength']">Min 2 length</div>
+          <div *ngIf="f['lastname'].errors?.['required']">
+            Field is required
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div formGroupName="address">
+        <div class="col-sm-6">
+          <label>Address</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="street"
+            placeholder="Enter street"
+          />
+          <div
+            *ngIf="g['street'].touched && !g['street'].valid"
+            class="text-danger"
+          >
+            <div *ngIf="g['street'].errors?.['required']">
+              street is required
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <label>city</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="city"
+            placeholder="Enter city"
+          />
+          <div
+            *ngIf="g['city'].touched && !g['city'].valid"
+            class="text-danger"
+          >
+            <div *ngIf="g['city'].errors?.['required']">city is required</div>
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <label>zipcode</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="zipcode"
+            placeholder="Enter zipcode"
+          />
+          <div
+            *ngIf="g['zipcode'].touched && !g['zipcode'].valid"
+            class="text-danger"
+          >
+            <div *ngIf="g['zipcode'].errors?.['required']">zip is required</div>
+            <div *ngIf="g['zipcode'].errors?.['minlength']">Min 2 length</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div>
+    <div class="col-md-6">
       <label>Email</label>
       <input
         type="text"
@@ -88,26 +100,62 @@
         formControlName="email"
         placeholder="Enter Email"
       />
-      <div
-        *ngIf="f['email'].touched && !f['email'].valid"
-        class="text-danger"
-      >
+      <div *ngIf="f['email'].touched && !f['email'].valid" class="text-danger">
         <div *ngIf="f['email'].errors?.['required']">Email is required</div>
         <div *ngIf="f['email'].errors?.['email']">Email is invalid</div>
       </div>
     </div>
 
-    <div class="col-md-12">
-      <label class="form-label" >Image Uplpad</label>
-      <input (change)="onImagChangeFromFile($event)" type="file" class="form-control" formControlName="imageInput">
+    <div class="col-md-6">
+      <label class="form-label">Image Uplpad</label>
+      <input
+        (change)="onImagChangeFromFile($event)"
+        type="file"
+        accept="image/png"
+        class="form-control"
+        formControlName="imageInput"
+      />
       <div *ngIf="submitted && f['imageInput'].errors">
-        <div *ngIf="f['imageInput'].errors['required']">PNG Image is required</div>
+        <div *ngIf="f['imageInput'].errors['required']">
+          PNG Image is required
+        </div>
       </div>
     </div>
 
+    <br />
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+        />
+        <div *ngIf="f['password'].touched && f['password'].invalid ">
+          <div *ngIf="f['password'].errors?.['required']">Password is required</div>
+        </div>
+
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Confirm Password</label>
+        <input
+          type="text"
+          formControlName="confirm_password"
+          class="form-control"
+        />
+        <div *ngIf="f['confirm_password'].touched && f['confirm_password'].invalid">
+          <div *ngIf="f['confirm_password'].errors?.['required']">Password is required</div>
+          <div *ngIf="f['confirm_password'].errors?.['confirmedValidator']">Password and confirm password must be match</div>
+        </div>
+      </div>
+    </div>
+    <br>
     <div>
       <!-- <button class="btn btn-primary" [disabled]="registerform.invalid"> Submit </button> -->
       <button class="btn btn-primary">Submit</button>
+    </div>
+    <div>
+      <button>Reset</button>
     </div>
   </form>
 </div>

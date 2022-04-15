@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfirmedValidator } from './confirmed.validator';
 
 @Component({
   selector: 'app-root',
@@ -23,48 +20,55 @@ export class AppComponent implements OnInit {
     return (this.registerform.controls['address'] as FormGroup).controls;
   }
 
-  constructor() {}
+  constructor(private bd: FormBuilder) {}
 
   ngOnInit() {
-    this.registerform = new FormGroup({
-      firstname: new FormControl(null, Validators.required),
-      lastname: new FormControl(null, Validators.required),
-      address: new FormGroup({
-        street: new FormControl(null, Validators.required),
-        city: new FormControl(null, Validators.required),
-        zipcode: new FormControl(null, [ Validators.required, Validators.minLength(2),
-        ]),
-      }),
-      email: new FormControl(null, [ Validators.required, Validators.email ]),
-      imageInput: new FormControl(null, [ Validators.required ]),
-    });
-  }
-
-  onImagChangeFromFile($event:any){
-    if($event.target.files && $event.target.files[0]){
-      let file = $event.target.files[0];
-      console.log(file);
-      if(file.type == "image/png"){
-        console.log("correct")
-      }
-      else{
-        // validation error
-        this.registerform.controls['imageInput'].reset();
-        this.registerform.controls['imageInput'].setValidators([Validators.required]);
-        this.registerform.get('imageInput')?.updateValueAndValidity();
-      }
-    }
+    this.registerform = this.bd.group(
+      {
+        firstname: ['', [Validators.required]],
+        lastname: ['', [Validators.required]],
+        address: this.bd.group({
+          street: ['', [Validators.required]],
+          city: ['', [Validators.required]],
+          zipcode: ['', [Validators.required,Validators.minLength(2)]],
+        }),
+        email: ['', [Validators.required, Validators.email]],
+        imageInput: ['', [Validators.required]],
+        password: ['', [Validators.required]],
+        confirm_password: ['', [Validators.required]],
+      },
+      { validator: ConfirmedValidator('password', 'confirm_password')}
+    );
   }
 
   onSubmit() {
     this.submitted = true;
-    if(this.registerform.invalid){
+    if (this.registerform.invalid) {
       return;
     }
 
-    if(this.submitted){
+    if (this.submitted) {
       console.log(this.registerform.value);
-      alert("Form Submitted Successfully");
+      alert('Form Submitted Successfully');
+    }
+  }
+
+  // image upload validation
+
+  onImagChangeFromFile($event: any) {
+    if ($event.target.files && $event.target.files[0]) {
+      let file = $event.target.files[0];
+      console.log(file);
+      if (file.type == 'image/png') {
+        console.log('correct');
+      } else {
+        // validation error
+        this.registerform.controls['imageInput'].reset();
+        this.registerform.controls['imageInput'].setValidators([
+          Validators.required,
+        ]);
+        this.registerform.get('imageInput')?.updateValueAndValidity();
+      }
     }
   }
 }
