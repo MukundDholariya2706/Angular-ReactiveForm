@@ -121,6 +121,7 @@
       <div *ngIf="f['email'].touched && !f['email'].valid" class="text-danger">
         <div *ngIf="f['email'].errors?.['required']">Email is required</div>
         <div *ngIf="f['email'].errors?.['email']">Email is invalid</div>
+        <!-- <div *ngIf="f['email'].errors?.['pattern']">Email is invalid</div> -->
       </div>
     </div>
 
@@ -156,6 +157,10 @@
         <div *ngIf="f['password'].touched && f['password'].invalid" class="text-danger">
           <div *ngIf="f['password'].errors?.['required']">
             Password is required
+          </div>
+          <div *ngIf="f['password'].errors?.['pattern']">
+            Password must contain at least one uppercase, one lowercase, one
+            number and one special character
           </div>
         </div>
       </div>

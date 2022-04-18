@@ -10,8 +10,11 @@ import { ConfirmedValidator } from './confirmed.validator';
 export class AppComponent implements OnInit {
   registerform!: FormGroup;
   submitted = false;
-  reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
   title = 'Angular-ReactiveForm';
+  reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+  email_reg = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$';
+  password_reg = '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}';
+
   Data: Array<any> = [
     { name: 'Pear', value: 'pear' },
     { name: 'Plum', value: 'plum' },
@@ -46,8 +49,9 @@ export class AppComponent implements OnInit {
           zipcode: ['', [Validators.required,Validators.minLength(2)]],
         }),
         email: ['', [Validators.required, Validators.email]],
+        // email: ['', [Validators.required, Validators.pattern(this.email_reg)]],
         imageInput: ['', [Validators.required]],
-        password: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.pattern(this.password_reg)]],
         confirm_password: ['', [Validators.required]],
         url: ['', [Validators.required, Validators.pattern(this.reg)]],
         hobbies: this.fb.array([]),
