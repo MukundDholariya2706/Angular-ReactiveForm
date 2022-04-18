@@ -43,6 +43,7 @@ export class AppComponent implements OnInit {
         confirm_password: ['', [Validators.required]],
         url: ['', [Validators.required, Validators.pattern(this.reg)]],
         hobbies: this.fb.array([]),
+        acceptTerms: [false, Validators.requiredTrue]
       },
       { validator: ConfirmedValidator('password', 'confirm_password')}
     );
@@ -59,6 +60,11 @@ export class AppComponent implements OnInit {
       console.log(this.registerform);
       // alert('Form Submitted Successfully');
     }
+  }
+
+  onReset(){
+    this.submitted = false;
+    this.registerform.reset();
   }
 
   // image upload validation

@@ -179,13 +179,17 @@
       </div>
     </div>
 
-
     <!-- Formarray validation -->
     <div formArrayName="hobbies">
       <label>Your Hobbies</label>
-      <button class="btn btn-default" type="button" (click)="onAddHobby()" >Add hobby</button>
-      <div class="form-group" *ngFor="let hobbyControl of controls; let i = index">
-        <input type="text" class="form-control" [formControlName]="i">
+      <button class="btn btn-default" type="button" (click)="onAddHobby()">
+        Add hobby
+      </button>
+      <div
+        class="form-group"
+        *ngFor="let hobbyControl of controls; let i = index"
+      >
+        <input type="text" class="form-control" [formControlName]="i" />
         <div *ngIf="controls[i].touched && !controls[i].valid">
           <div *ngIf="controls[i].errors?.['required']">required</div>
         </div>
@@ -193,12 +197,37 @@
     </div>
 
     <br />
+
+    <!-- single checkbox validation -->
+    <div class="form-group form-check">
+      <input
+        type="checkbox"
+        formControlName="acceptTerms"
+        id="acceptTerms"
+        class="form-check-input"
+        [ngClass]="{ 'is-invalid': submitted && f['acceptTerms'].errors }"
+      />
+      <label for="acceptTerms" class="form-check-label"
+        >Accept Terms & Conditions</label
+      >
+      <div
+        *ngIf="submitted && f['acceptTerms'].errors"
+        class="invalid-feedback"
+      >
+        <!-- Accept Ts & Cs is required -->
+      </div>
+    </div>
+
     <div>
-      <button class="btn btn-primary" [disabled]="registerform.invalid"> Submit </button>
-      <button class="btn btn-primary" type="submit" >Submit</button>
+      <button class="btn btn-primary" [disabled]="registerform.invalid">
+        Submit
+      </button>
+      <button class="btn btn-primary" type="submit">Submit</button>
     </div>
     <div>
-      <button>Reset</button>
+      <button class="btn btn-danger" type="button" (click)="onReset()">
+        Reset
+      </button>
     </div>
   </form>
 </div>
