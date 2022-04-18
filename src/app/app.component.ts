@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmedValidator } from './confirmed.validator';
 
 @Component({
@@ -21,6 +21,10 @@ export class AppComponent implements OnInit {
     return (this.registerform.controls['address'] as FormGroup).controls;
   }
 
+  get controls() {
+    return (this.registerform.get('hobbies') as FormArray).controls;
+  }
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
@@ -37,7 +41,8 @@ export class AppComponent implements OnInit {
         imageInput: ['', [Validators.required]],
         password: ['', [Validators.required]],
         confirm_password: ['', [Validators.required]],
-        url: ['', [Validators.required, Validators.pattern(this.reg)]]
+        url: ['', [Validators.required, Validators.pattern(this.reg)]],
+        hobbies: this.fb.array([]),
       },
       { validator: ConfirmedValidator('password', 'confirm_password')}
     );
@@ -51,7 +56,8 @@ export class AppComponent implements OnInit {
 
     if (this.submitted) {
       console.log(this.registerform.value);
-      alert('Form Submitted Successfully');
+      console.log(this.registerform);
+      // alert('Form Submitted Successfully');
     }
   }
 
@@ -60,7 +66,7 @@ export class AppComponent implements OnInit {
   onImagChangeFromFile($event: any) {
     if ($event.target.files && $event.target.files[0]) {
       let file = $event.target.files[0];
-      console.log(file);
+      // console.log(file);
       if (file.type == 'image/png') {
         console.log('correct');
       } else {
@@ -72,5 +78,10 @@ export class AppComponent implements OnInit {
         this.registerform.get('imageInput')?.updateValueAndValidity();
       }
     }
+  }
+
+  onAddHobby(){
+    const control = new FormControl(null, Validators.required);
+    (<FormArray>this.registerform.get('hobbies')).push(control)
   }
 }
