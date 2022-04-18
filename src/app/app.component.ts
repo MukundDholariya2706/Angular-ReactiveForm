@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
       {
         firstname: ['', [Validators.required]],
         lastname: ['', [Validators.required]],
+        gender: ['', Validators.required],
         address: this.fb.group({
           street: ['', [Validators.required]],
           city: ['', [Validators.required]],
@@ -43,7 +44,7 @@ export class AppComponent implements OnInit {
         confirm_password: ['', [Validators.required]],
         url: ['', [Validators.required, Validators.pattern(this.reg)]],
         hobbies: this.fb.array([]),
-        acceptTerms: [false, Validators.requiredTrue]
+        acceptTerms: [false, Validators.requiredTrue],
       },
       { validator: ConfirmedValidator('password', 'confirm_password')}
     );

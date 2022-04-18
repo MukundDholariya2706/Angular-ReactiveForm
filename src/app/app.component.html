@@ -40,6 +40,18 @@
       </div>
     </div>
 
+    <!-- radio button vadliation -->
+    <div>
+      <label>Gender</label>
+      <label><input type="radio" formControlName="gender" value="Male" /> Male</label>
+      <label><input type="radio" formControlName="gender" value="Female" />Female</label>
+      <div *ngIf="f['gender'].touched && !f['gender'].valid">
+        <div *ngIf="f['gender'].errors?.['required']">
+          Select 1 field
+        </div>
+      </div>
+    </div>
+
     <!-- address with nested formgroup with validation -->
     <div class="row">
       <div formGroupName="address">
