@@ -12,6 +12,13 @@ export class AppComponent implements OnInit {
   submitted = false;
   reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
   title = 'Angular-ReactiveForm';
+  Data: Array<any> = [
+    { name: 'Pear', value: 'pear' },
+    { name: 'Plum', value: 'plum' },
+    { name: 'Kiwi', value: 'kiwi' },
+    { name: 'Apple', value: 'apple' },
+    { name: 'Lime', value: 'lime' },
+  ];
 
   get f() {
     return this.registerform.controls;
@@ -45,6 +52,8 @@ export class AppComponent implements OnInit {
         url: ['', [Validators.required, Validators.pattern(this.reg)]],
         hobbies: this.fb.array([]),
         acceptTerms: [false, Validators.requiredTrue],
+        checkArray: this.fb.array([],[Validators.required]),
+
       },
       { validator: ConfirmedValidator('password', 'confirm_password')}
     );
@@ -90,5 +99,21 @@ export class AppComponent implements OnInit {
   onAddHobby(){
     const control = new FormControl(null, Validators.required);
     (<FormArray>this.registerform.get('hobbies')).push(control)
+  }
+
+  onCheckboxChange(e: any) {
+    const checkArray: FormArray = this.registerform.get('checkArray') as FormArray;
+    if (e.target.checked) {
+      checkArray.push(new FormControl(e.target.value));
+    } else {
+      let i: number = 0;
+      checkArray.controls.forEach((item: any) => {
+        if (item.value == e.target.value) {
+          checkArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
   }
 }

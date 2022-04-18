@@ -45,7 +45,7 @@
       <label>Gender</label>
       <label><input type="radio" formControlName="gender" value="Male" /> Male</label>
       <label><input type="radio" formControlName="gender" value="Female" />Female</label>
-      <div *ngIf="f['gender'].touched && !f['gender'].valid">
+      <div *ngIf="f['gender'].touched && !f['gender'].valid" class="text-danger">
         <div *ngIf="f['gender'].errors?.['required']">
           Select 1 field
         </div>
@@ -135,7 +135,7 @@
         formControlName="imageInput"
         [ngClass]="{ 'is-invalid': submitted && f['imageInput'].errors }"
       />
-      <div *ngIf="submitted && f['imageInput'].errors">
+      <div *ngIf="submitted && f['imageInput'].errors" class="text-danger">
         <div *ngIf="f['imageInput'].errors['required']">
           PNG Image is required
         </div>
@@ -153,7 +153,7 @@
           formControlName="password"
           class="form-control"
         />
-        <div *ngIf="f['password'].touched && f['password'].invalid">
+        <div *ngIf="f['password'].touched && f['password'].invalid" class="text-danger">
           <div *ngIf="f['password'].errors?.['required']">
             Password is required
           </div>
@@ -167,7 +167,7 @@
           class="form-control"
         />
         <div
-          *ngIf="f['confirm_password'].touched && f['confirm_password'].invalid"
+          *ngIf="f['confirm_password'].touched && f['confirm_password'].invalid" class="text-danger"
         >
           <div *ngIf="f['confirm_password'].errors?.['required']">
             Password is required
@@ -202,13 +202,25 @@
         *ngFor="let hobbyControl of controls; let i = index"
       >
         <input type="text" class="form-control" [formControlName]="i" />
-        <div *ngIf="controls[i].touched && !controls[i].valid">
+        <div *ngIf="controls[i].touched && !controls[i].valid" class="text-danger">
           <div *ngIf="controls[i].errors?.['required']">required</div>
         </div>
       </div>
     </div>
 
     <br />
+
+    <!-- multi checkbox validation -->
+    <div *ngFor="let data of Data; let i=index">
+      <label>
+        <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)" />
+        {{data.name}}
+      </label>
+    </div>
+      <div *ngIf="f['checkArray'].errors?.['required']" class="text-danger">
+        Checkbox is required, select atleast one value.
+      </div>  
+    
 
     <!-- single checkbox validation -->
     <div class="form-group form-check">
