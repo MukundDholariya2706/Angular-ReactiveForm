@@ -10,6 +10,7 @@ import { ConfirmedValidator } from './confirmed.validator';
 export class AppComponent implements OnInit {
   registerform!: FormGroup;
   submitted = false;
+  reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
   title = 'Angular-ReactiveForm';
 
   get f() {
@@ -20,14 +21,14 @@ export class AppComponent implements OnInit {
     return (this.registerform.controls['address'] as FormGroup).controls;
   }
 
-  constructor(private bd: FormBuilder) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.registerform = this.bd.group(
+    this.registerform = this.fb.group(
       {
         firstname: ['', [Validators.required]],
         lastname: ['', [Validators.required]],
-        address: this.bd.group({
+        address: this.fb.group({
           street: ['', [Validators.required]],
           city: ['', [Validators.required]],
           zipcode: ['', [Validators.required,Validators.minLength(2)]],
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
         imageInput: ['', [Validators.required]],
         password: ['', [Validators.required]],
         confirm_password: ['', [Validators.required]],
+        url: ['', [Validators.required, Validators.pattern(this.reg)]]
       },
       { validator: ConfirmedValidator('password', 'confirm_password')}
     );

@@ -149,6 +149,18 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <label>Webside URL</label>
+        <input type="text"  formControlName="url" class="form-control">
+        <div *ngIf="f['url'].touched && !f['url'].valid" class="text-danger">
+          <div *ngIf="f['url'].errors?.['required']">URL is required</div>
+          <div *ngIf="f['url'].errors?.['pattern']">Please enter valid url</div>
+        </div>
+      </div>
+    </div>
+
     <br>
     <div>
       <!-- <button class="btn btn-primary" [disabled]="registerform.invalid"> Submit </button> -->
