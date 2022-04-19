@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { ConfirmedValidator } from './confirmed.validator';
 
 @Component({
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
   email_reg = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$';
   password_reg = '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}';
+  numNotAllowReg = '^[a-zA-Z \-\']+';
 
   Data: Array<any> = [
     { name: 'Pear', value: 'pear' },
@@ -41,14 +43,14 @@ export class AppComponent implements OnInit {
     this.registerform = this.fb.group(
       {
         firstname: ['', [Validators.required]],
-        lastname: ['', [Validators.required]],
+        lastname: ['', [Validators.required, Validators.pattern(this.numNotAllowReg)]],
         gender: ['', Validators.required],
         address: this.fb.group({
           street: ['', [Validators.required]],
           city: ['', [Validators.required]],
           zipcode: ['', [Validators.required,Validators.minLength(2)]],
         }),
-        email: ['', [Validators.required, Validators.email]],
+        email: ['', [Validators.required, Validators.email], this.forbiddenEmails],
         // email: ['', [Validators.required, Validators.pattern(this.email_reg)]],
         imageInput: ['', [Validators.required]],
         password: ['', [Validators.required, Validators.pattern(this.password_reg)]],
@@ -119,5 +121,18 @@ export class AppComponent implements OnInit {
         i++;
       });
     }
+  }
+
+  forbiddenEmails(control: FormControl): Promise<any> | Observable<any>{
+    const promise = new Promise<any>((resolve, reject) => {
+      setTimeout(() => {
+        if (control.value === 'test@test.com') {
+          resolve({'emailIsForbidden': true});
+        } else {
+          resolve(null);
+        }
+      }, 1500);
+    });
+    return promise;
   }
 }
