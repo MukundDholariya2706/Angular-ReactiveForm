@@ -32,6 +32,9 @@ export class AppComponent implements OnInit {
     { name: 'Apple', value: 'apple' },
     { name: 'Lime', value: 'lime' },
   ];
+
+  Movies = ['EndGame', 'Moon knight'];
+
   base64Data: any;
 
   get f() {
@@ -44,6 +47,10 @@ export class AppComponent implements OnInit {
 
   get controls() {
     return (this.registerform.get('hobbies') as FormArray).controls;
+  }
+
+  get movies(){
+    return this.registerform.get('movie');
   }
 
   constructor(private fb: FormBuilder) {}
@@ -75,6 +82,7 @@ export class AppComponent implements OnInit {
         ],
         confirm_password: ['', [Validators.required]],
         url: ['', [Validators.required, Validators.pattern(this.url_reg)]],
+        movie: ['',[Validators.required]],
         income: [null],
         hobbies: this.fb.array([]),
         acceptTerms: [false, Validators.requiredTrue],
@@ -175,5 +183,10 @@ export class AppComponent implements OnInit {
       this.registerform.controls['income'].updateValueAndValidity();
     }
     // this.registerform.controls['income'].updateValueAndValidity();
+  }
+
+  //select-options validation
+  changeMovie(e: any){
+    this.movies?.setValue(e.target.value,{onlySelf: true})
   }
 }

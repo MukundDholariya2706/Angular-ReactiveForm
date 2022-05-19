@@ -80,6 +80,21 @@
         <!-- <div *ngIf="f['email'].errors?.['pattern']">Email is invalid</div> -->
       </div>
     </div>
+<br>
+    <!-- select-options validation -->
+    <div class="col-md-6">
+      <label>Movie</label>
+      <select class="custom-select form-control" formControlName="movie" (change)="changeMovie($event)">
+        <option value="" disabled selected>Choose Movie</option>
+        <option *ngFor="let Movie of Movies">
+          {{Movie}}
+        </option>
+      </select>
+
+      <div *ngIf="f['movie'].touched && !f['movie'].valid" class="text-danger">
+        <div *ngIf="f['movie'].errors?.['required']">Movie is required</div>
+      </div>
+    </div>
 
     <!-- file input validation -->
     <div class="col-md-6">
