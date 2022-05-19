@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   password_reg = '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}';
   numNotAllowReg = '^[a-zA-Z \-\']+';
   imageSrc!: any;
+  showField = false;
 
   Data: Array<any> = [
     { name: 'Pear', value: 'pear' },
@@ -59,6 +60,7 @@ export class AppComponent implements OnInit {
         password: ['', [Validators.required, Validators.pattern(this.password_reg)]],
         confirm_password: ['', [Validators.required]],
         url: ['', [Validators.required, Validators.pattern(this.url_reg)]],
+        income: [null],
         hobbies: this.fb.array([]),
         acceptTerms: [false, Validators.requiredTrue],
         checkArray: this.fb.array([],[Validators.required]),
@@ -69,6 +71,7 @@ export class AppComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    console.log(this.registerform.value);
     if (this.registerform.invalid) {
       return;
     }
@@ -108,6 +111,8 @@ export class AppComponent implements OnInit {
     }
   }
 
+
+  //formarray validation
   onAddHobby(){
     const control = new FormControl(null, Validators.required);
     (<FormArray>this.registerform.get('hobbies')).push(control)
@@ -140,5 +145,18 @@ export class AppComponent implements OnInit {
       }, 1500);
     });
     return promise;
+  }
+
+  //add-remove validation
+  addValidation(event: any){
+    this.showField = !this.showField;
+    if(event.target.checked){
+      this.registerform.controls['income'].setValidators([Validators.required]);
+    }
+    else
+    {
+      this.registerform.controls['income'].setValidators(null);
+    }
+    this.registerform.controls['income'].updateValueAndValidity();
   }
 }
