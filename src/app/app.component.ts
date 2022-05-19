@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ConfirmedValidator } from './confirmed.validator';
+import { ConfirmedValidator } from './validator/confirmed.validator';
+
 
 @Component({
   selector: 'app-root',
@@ -12,10 +13,11 @@ export class AppComponent implements OnInit {
   registerform!: FormGroup;
   submitted = false;
   title = 'Angular-ReactiveForm';
-  reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+  url_reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
   email_reg = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$';
   password_reg = '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}';
   numNotAllowReg = '^[a-zA-Z \-\']+';
+  imageSrc!: any;
 
   Data: Array<any> = [
     { name: 'Pear', value: 'pear' },
@@ -24,6 +26,7 @@ export class AppComponent implements OnInit {
     { name: 'Apple', value: 'apple' },
     { name: 'Lime', value: 'lime' },
   ];
+  base64Data: any;
 
   get f() {
     return this.registerform.controls;
@@ -55,11 +58,10 @@ export class AppComponent implements OnInit {
         imageInput: ['', [Validators.required]],
         password: ['', [Validators.required, Validators.pattern(this.password_reg)]],
         confirm_password: ['', [Validators.required]],
-        url: ['', [Validators.required, Validators.pattern(this.reg)]],
+        url: ['', [Validators.required, Validators.pattern(this.url_reg)]],
         hobbies: this.fb.array([]),
         acceptTerms: [false, Validators.requiredTrue],
         checkArray: this.fb.array([],[Validators.required]),
-
       },
       { validator: ConfirmedValidator('password', 'confirm_password')}
     );
@@ -80,6 +82,7 @@ export class AppComponent implements OnInit {
 
   onReset(){
     this.submitted = false;
+    this.imageSrc = null;
     this.registerform.reset();
   }
 
@@ -91,6 +94,9 @@ export class AppComponent implements OnInit {
       // console.log(file);
       if (file.type == 'image/png') {
         console.log('correct');
+        const reader = new FileReader();
+        reader.onload = e => this.imageSrc = reader.result;
+        reader.readAsDataURL(file);
       } else {
         // validation error
         this.registerform.controls['imageInput'].reset();

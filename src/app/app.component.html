@@ -36,7 +36,7 @@
           <div *ngIf="f['lastname'].errors?.['required']">
             Field is required
           </div>
-          <div *ngIf="f['lastname'].errors?.['pattern']">Number not allow</div>
+          <div *ngIf="f['lastname'].errors?.['pattern']">Number and special char not allow</div>
         </div>
       </div>
     </div>
@@ -143,6 +143,8 @@
         </div>
       </div>
     </div>
+
+    <img [src]="imageSrc" width="100px">
 
     <br />
 
