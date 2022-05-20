@@ -168,6 +168,20 @@
       </div>
     </div>
 
+    <!-- add & remove validation on radio button -->
+    <div>
+      <label>Depost lai lidhi che?</label>
+      <label><input type="radio" formControlName="transport" value="Yes" (change)="addAmount($event)" /> Yes</label>
+      <label><input type="radio" formControlName="transport" value="No"  (change)="addAmount($event)" />No</label>
+    </div>
+    <div *ngIf="showTranport">
+      <label>Per Family Total Deposit Amount <small>Per Person ₹200</small></label>
+      <input type="number" class="form-control" min="1" formControlName="tAmount" placeholder="₹">
+    </div>
+
+    <!-- disabled input -->
+    <input type="text" placeholder="disabled" formControlName="disable" class="form-control">
+
     <!-- Formarray validation -->
     <div formArrayName="hobbies">
       <label>Your Hobbies</label>
@@ -185,14 +199,15 @@
     <br />
 
     <!-- multi checkbox validation -->
-    <div *ngFor="let data of Data; let i=index">
-      <label>
+    <div formArrayName="checkArray">
+      <label>fruit</label>
+      <div *ngFor="let data of Data; let i=index" class="form-group">
         <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)" />
         {{data.name}}
-      </label>
-    </div>
-    <div *ngIf="f['checkArray'].errors?.['required']" class="text-danger">
-      Checkbox is required, select atleast one value.
+      </div>
+      <div *ngIf="f['checkArray'].errors?.['required']" class="text-danger">
+        Checkbox is required, select atleast one value.
+      </div>
     </div>
 
 
@@ -217,5 +232,7 @@
         Reset
       </button>
     </div>
+<hr>
+
   </form>
 </div>

@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   numNotAllowReg = "^[a-zA-Z -']+";
   imageSrc!: any;
   showField = false;
+  showTranport = false;
 
   Data: Array<any> = [
     { name: 'Pear', value: 'pear' },
@@ -87,6 +88,9 @@ export class AppComponent implements OnInit {
         hobbies: this.fb.array([]),
         acceptTerms: [false, Validators.requiredTrue],
         checkArray: this.fb.array([], [Validators.required]),
+        transport: [null,[Validators.required]],
+        tAmount: [null],
+        disable: []
       },
       { validator: ConfirmedValidator('password', 'confirm_password') }
     );
@@ -185,8 +189,25 @@ export class AppComponent implements OnInit {
     // this.registerform.controls['income'].updateValueAndValidity();
   }
 
+  addAmount(event: any){
+    if(event.target.value == 'Yes'){
+      this.showTranport = true;
+      this.registerform.controls['tAmount'].setValidators([Validators.required]);
+      this.registerform.controls['tAmount'].updateValueAndValidity();
+      this.registerform.controls['disable'].disable();
+    }
+    else{
+      this.showTranport = false;
+      this.registerform.controls['tAmount'].patchValue(null);
+      this.registerform.controls['tAmount'].setValidators([Validators.required])
+      this.registerform.controls['tAmount'].updateValueAndValidity();
+      this.registerform.controls['disable'].enable();
+    }
+  }
+
   //select-options validation
   changeMovie(e: any){
     this.movies?.setValue(e.target.value,{onlySelf: true})
   }
+  
 }
