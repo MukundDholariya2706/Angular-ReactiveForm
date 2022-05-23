@@ -200,7 +200,7 @@ export class AppComponent implements OnInit {
     else{
       this.showTranport = false;
       this.registerform.controls['tAmount'].patchValue(null);
-      this.registerform.controls['tAmount'].setValidators([Validators.required])
+      this.registerform.controls['tAmount'].setValidators(null)
       this.registerform.controls['tAmount'].updateValueAndValidity();
       this.registerform.controls['tAmount'].clearValidators();
       this.registerform.controls['disable'].enable();
