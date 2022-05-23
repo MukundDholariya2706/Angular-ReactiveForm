@@ -185,6 +185,7 @@ export class AppComponent implements OnInit {
       this.registerform.controls['income'].setValidators(null);
       this.registerform.controls['income'].patchValue(null);
       this.registerform.controls['income'].updateValueAndValidity();
+      this.registerform.controls['income'].clearValidators();
     }
     // this.registerform.controls['income'].updateValueAndValidity();
   }
@@ -201,6 +202,7 @@ export class AppComponent implements OnInit {
       this.registerform.controls['tAmount'].patchValue(null);
       this.registerform.controls['tAmount'].setValidators([Validators.required])
       this.registerform.controls['tAmount'].updateValueAndValidity();
+      this.registerform.controls['tAmount'].clearValidators();
       this.registerform.controls['disable'].enable();
     }
   }
