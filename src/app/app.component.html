@@ -4,12 +4,17 @@
     <div class="row">
       <div class="col-md-6">
         <label>First Name</label>
+
+        <!-- Input-group -->
+        <div class="input-group">
+        <span class="input-group-text">First Name</span>
         <input type="text" class="form-control" formControlName="firstname" placeholder="Enter First Name"
           [ngClass]="{ 'is-invalid': submitted && f['firstname'].errors }" />
         <div *ngIf="f['firstname'].touched && !f['firstname'].valid" class="text-danger">
           <div *ngIf="f['firstname'].errors?.['required']">
             Field is required
           </div>
+        </div>
         </div>
       </div>
       <div class="col-md-6">
